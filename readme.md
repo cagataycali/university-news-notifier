@@ -11,10 +11,10 @@ Node.js module to interact with official [Telegram Bot API](https://core.telegra
 ## :+1: Usage
 
 **Start conversation with your bot**
-![init](https://raw.githubusercontent.com/cagataycali/university-news-notifier/master/screenshots/init.png)
+![init](screenshots/init.png)
 
 **Bot will notify you when any announcement at your university**
-![news](https://raw.githubusercontent.com/cagataycali/university-news-notifier/master/screenshots/news.png)
+![news](screenshots/news.png)
 
 ## :sparkles: Contribution Guideline
 
