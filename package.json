@@ -1,6 +1,6 @@
 {
   "name": "university-news-notifier",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Have your own open-source university feed notifier..",
   "main": "index.js",
   "scripts": {
