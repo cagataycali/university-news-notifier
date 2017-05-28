@@ -1,0 +1,12 @@
+{
+  "name": "university-news-notifier",
+  "description": "Have your own open-source university feed notifier..",
+  "repository": "https://github.com/cagataycali/university-news-notifier",
+  "logo": "https://cagatay.js.org/spider.png",
+  "keywords": ["universities", "university", "feed", "notifier"],
+  "website": "https://cagatay.me",
+  "env": {
+    "TELEGRAM_TOKEN": null,
+    "APP_NAME": null
+  }
+}

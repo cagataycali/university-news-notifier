@@ -1,0 +1,19 @@
+{
+  "name": "university-news-notifier",
+  "version": "1.0.0",
+  "description": "Have your own open-source university feed notifier..",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Çağatay Çalı",
+  "license": "MIT",
+  "dependencies": {
+    "cron": "^1.2.1",
+    "moment": "^2.18.1",
+    "nedb": "^1.8.0",
+    "node-telegram-bot-api": "^0.27.1",
+    "scrape-it": "^3.3.2",
+    "slugify": "^1.1.0"
+  }
+}
