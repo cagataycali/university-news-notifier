@@ -94,6 +94,8 @@ npm run test
 | [Pamukkale](http://www.pamukkale.edu.tr/bilgisayar)       |  http://www.pamukkale.edu.tr/bilgisayar   |   OK     |
 | [Dokuz Eylül](http://www.deu.edu.tr)       |  http://www.eng.deu.edu.tr   |   OK     |
 | [Anadolu Universitesi](https://www.anadolu.edu.tr)        |  https://www.anadolu.edu.tr/duyurular     |   OK     |
+| [İstanbul Teknik Universitesi](http://www.itu.edu.tr/)        |  http://www.itu.edu.tr/duyuru     |   OK     |
+
 
 **Lets parse your university feeds :smiling_imp:**
 
