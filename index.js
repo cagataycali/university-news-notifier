@@ -39,6 +39,7 @@ bot.onText(/(.+)$/, function (msg, match) {
               [ { text: "Pamukkale Üniversitesi",  callback_data: "Pamukkale Üniversitesi",  } ],
               [ { text: "Anadolu Üniversitesi",  callback_data: "Anadolu Üniversitesi",  } ],
               [ { text: "Dokuz Eylül Üniversitesi",  callback_data: "Dokuz Eylül Üniversitesi",  } ],
+              [ { text: "İstanbul Teknik Üniversitesi",  callback_data: "İstanbul Teknik Üniversitesi",  } ],
               [ { text: "Nope, none of them.",  callback_data: "nope",  } ]
           ],
       },
