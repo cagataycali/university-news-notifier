@@ -12,7 +12,7 @@ Node.js module to interact with official [Telegram Bot API](https://core.telegra
 
 **Start conversation with your bot**
 
-![init](https://github.com/cagataycali/university-news-notifier/raw/master/screenshots/init.png)
+![init](https://github.com/cagataycali/university-news-notifier/raw/master/screenshots/initialize.png)
 
 **Bot will notify you when any announcement at your university**
 
