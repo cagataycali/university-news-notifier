@@ -49,7 +49,7 @@ bot.onText(/(.+)$/, function (msg, match) {
           bot.once("callback_query", answer => {
             console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
                 if (answer.data !== 'nope') {
-                  bot.sendMessage(chatId, `You choosed ${answer.data}`);
+                  bot.sendMessage(chatId, `You choose ${answer.data}`);
                   addParticipant({
                     useraname: answer.message.chat.username,
                     telegramId: answer.message.chat.id,
