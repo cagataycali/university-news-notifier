@@ -1,0 +1,21 @@
+{
+    "university": "Anadolu Üniversitesi",
+    "faculity": "",
+    "home":"https://anadolu.edu.tr",
+    "url": "https://anadolu.edu.tr/duyurular",
+    "type": "scrape",
+    "scrape": {
+        "news": {
+            "listItem": "li",
+            "name": "announcement",
+            "data": {
+                "url": {
+                    "selector": "a.headLine",
+                    "attr": "href"
+                },
+                "title": "a",
+                "publishedAt": "a.calendar"
+            }
+        }
+    }
+}
