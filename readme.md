@@ -90,12 +90,10 @@ npm run test
 
 |       University                                          |       Crawling Site                       |  Status  |
 | --------------------------------------------------------- |:-----------------------------------------:|:--------:|
-| [Yildiz Technical](https://www.ce.yildiz.edu.tr/)         |  https://ytuce.maliayas.com/              |   WIP    |
-| [Istanbul](http://ce.istanbul.edu.tr/)                    |  http://ce.istanbul.edu.tr/               |   NOPE   |
+| [Yildiz Technical](https://www.ce.yildiz.edu.tr/)         |  https://ytuce.maliayas.com/              |   OK    |
 | [Pamukkale](http://www.pamukkale.edu.tr/bilgisayar)       |  http://www.pamukkale.edu.tr/bilgisayar   |   OK     |
 | [Dokuz Eylül](http://www.deu.edu.tr)       |  http://www.eng.deu.edu.tr   |   OK     |
 | [Anadolu Universitesi](https://www.anadolu.edu.tr)        |  https://www.anadolu.edu.tr/duyurular     |   OK     |
-| [Istanbul Technical](http://www.bb.itu.edu.tr/)           |  http://www.bb.itu.edu.tr/                |   NOPE   |
 
 **Lets parse your university feeds :smiling_imp:**
 
