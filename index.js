@@ -36,7 +36,6 @@ bot.onText(/(.+)$/, function (msg, match) {
       reply_markup: {
           inline_keyboard: [
               [ { text: "Pamukkale Üniversitesi",  callback_data: "Pamukkale Üniversitesi",  } ],
-              [ { text: "Yıldız Teknik Üniversitesi",  callback_data: "Yıldız Teknik Üniversitesi",  } ],
               [ { text: "Nope, none of them.",  callback_data: "nope",  } ]
           ],
       },
