@@ -8,13 +8,20 @@ const CronJob = require('cron').CronJob;
 const TelegramBot = require('node-telegram-bot-api');
 const rssParser = require('rss-parser');
 
-const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
-const options = {
-  webHook: { port: process.env.PORT },
-};
-const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, options);
+// const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
+// const options = {
+//   webHook: { port: process.env.PORT },
+// };
+// const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, options);
+//
+// bot.setWebHook(`${appUrl}/bot${process.env.TELEGRAM_TOKEN}`);
+// REMOVE
+// replace the value below with the Telegram token you receive from @BotFather
+const token = '373736186:AAHP0QRD8G3DAv7RI7J1KKYOf_cBnQygNlM';
 
-bot.setWebHook(`${appUrl}/bot${process.env.TELEGRAM_TOKEN}`);
+// Create a bot that uses 'polling' to fetch new updates
+const bot = new TelegramBot(token, {polling: true});
+// REMOVE
 
 // Make unique.
 news.ensureIndex({
@@ -52,7 +59,7 @@ bot.onText(/(.+)$/, function (msg, match) {
                 if (answer.data !== 'nope') {
                   bot.sendMessage(chatId, `You choose ${answer.data}`);
                   addParticipant({
-                    useraname: answer.message.chat.username,
+                    username: answer.message.chat.username,
                     telegramId: answer.message.chat.id,
                     university: answer.data.trim()
                   });
@@ -100,7 +107,7 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
 /*
   Add participants in university feeds.
   Example usage: let numRowsUpdated = await addParticipant({
-    useraname: 'cagataycali',
+    username: 'cagataycali',
     telegramId: 149632499,
     university: 'Pamukkale Üniversitesi'
   });
@@ -149,10 +156,11 @@ function scrapeAndSave(file) {
             "scrapedAt": moment().format()
           }, function (err, newDoc) {
             if (!err) {
+              console.log('New entry!');
               getParticipants(data.university)
                 .then((participants) => {
                   participants.forEach((participant) => {
-                    console.log(participant.useraname, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
+                    console.log(participant.username, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
                     bot.sendMessage(participant.telegramId, `${entry.title} ${entry.pubDate} \n ${entry.link}`);
                   })
                 })
@@ -183,12 +191,12 @@ function scrapeAndSave(file) {
               if (err) {
                 // console.log(err.errorType === 'uniqueViolated' ? 'Veritabanında mevcut..': 'Başka bir hata mevcut' + err);
               } else {
-                console.log('inserted');
+                console.log('New entry!');
                 getParticipants(data.university)
                   .then((participants) => {
                     participants.forEach((participant) => {
                       // send telegram notification
-                      console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                      console.log(participant.username, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
                       bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
                     })
                   })

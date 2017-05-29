@@ -50,7 +50,7 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
         }
       });
       await addParticipant({
-        useraname: 'cagataycali',
+        username: 'cagataycali',
         telegramId: 149632499,
         university: content.university
       })
@@ -62,7 +62,7 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
 /*
   Add participants in university feeds.
   Example usage: let numRowsUpdated = await addParticipant({
-    useraname: 'cagataycali',
+    username: 'cagataycali',
     telegramId: 149632499,
     university: 'Pamukkale Üniversitesi'
   });
@@ -115,7 +115,7 @@ function scrapeAndSave(file) {
             getParticipants(data.university)
               .then((participants) => {
                 participants.forEach((participant) => {
-                  console.log(participant.useraname, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
+                  console.log(participant.username, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
                 })
               })
               .catch((err) => {
@@ -146,7 +146,7 @@ function scrapeAndSave(file) {
                 getParticipants(data.university)
                   .then((participants) => {
                     participants.forEach((participant) => {
-                      console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                      console.log(participant.username, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
                     })
                   })
                   .catch((err) => {
