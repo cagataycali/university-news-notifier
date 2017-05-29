@@ -6,6 +6,7 @@ const moment = require('moment');
 const exec = require('child_process').exec;
 const CronJob = require('cron').CronJob;
 const TelegramBot = require('node-telegram-bot-api');
+const parser = require('rss-parser');
 
 const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
 const options = {
@@ -36,7 +37,6 @@ bot.onText(/(.+)$/, function (msg, match) {
       reply_markup: {
           inline_keyboard: [
               [ { text: "Pamukkale Üniversitesi",  callback_data: "Pamukkale Üniversitesi",  } ],
-              [ { text: "Yildiz Teknik Üniversitesi",  callback_data: "Yildiz Teknik Üniversitesi",  } ],
               [ { text: "Anadolu Üniversitesi",  callback_data: "Anadolu Üniversitesi",  } ],
               [ { text: "Nope, none of them.",  callback_data: "nope",  } ]
           ],
@@ -135,42 +135,69 @@ function scrapeAndSave(file) {
   return new Promise((resolve, reject) => {
     let data = require(`${process.cwd()}/sites/${file}`);
     const baseURI = data.home;
-    const scrape = data.scrape;
 
-    // Scrape it.
-    scrapeIt(data.url, scrape).then(page => {
-        page = page.news.filter((piece) => {
-          if (piece.url && piece.title) {
-            if (!piece.url.includes(baseURI)) {
-              piece.url = `${baseURI}${piece.url}`;
-              return piece;
-            } else {
-              return piece;
-            }
-          }
-        });
-        page.forEach((item) => {
-          item.scrapedAt = moment().format()
-          news.insert(item, function (err, newDoc) {
-            if (err) {
-              // console.log(err.errorType === 'uniqueViolated' ? 'Veritabanında mevcut..': 'Başka bir hata mevcut' + err);
-            } else {
-              console.log('inserted');
+    if (data.rss) {
+      rssParser.parseURL(data.rss, function(err, parsed) {
+        console.log(parsed.feed.title);
+        parsed.feed.entries.forEach(function(entry) {
+          news.insert({
+            "title": entry.title,
+            "url": entry.link,
+            "publishedAt": entry.pubDate,
+            "scrapedAt": moment().format()
+          }, function (err, newDoc) {
+            if (!err) {
               getParticipants(data.university)
                 .then((participants) => {
                   participants.forEach((participant) => {
-                    // send telegram notification
-                    console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
-                    bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
+                    console.log(participant.useraname, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
+                    bot.sendMessage(participant.telegramId, `${entry.title} ${entry.pubDate} \n ${entry.link}`);
                   })
                 })
                 .catch((err) => {
-                  console.log('ERROR WHEN GET Participants');
+                  console.log('ERROR WHEN GET Participants', err);
                 })
             }
            });
-        });
-    });
+        })
+      })
+    } else {
+      const scrape = data.scrape;
+      // Scrape it.
+      scrapeIt(data.url, scrape).then(page => {
+          page = page.news.filter((piece) => {
+            if (piece.url && piece.title) {
+              if (!piece.url.includes(baseURI)) {
+                piece.url = `${baseURI}${piece.url}`;
+                return piece;
+              } else {
+                return piece;
+              }
+            }
+          });
+          page.forEach((item) => {
+            item.scrapedAt = moment().format()
+            news.insert(item, function (err, newDoc) {
+              if (err) {
+                // console.log(err.errorType === 'uniqueViolated' ? 'Veritabanında mevcut..': 'Başka bir hata mevcut' + err);
+              } else {
+                console.log('inserted');
+                getParticipants(data.university)
+                  .then((participants) => {
+                    participants.forEach((participant) => {
+                      // send telegram notification
+                      console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                      bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
+                    })
+                  })
+                  .catch((err) => {
+                    console.log('ERROR WHEN GET Participants');
+                  })
+              }
+             });
+          });
+      });
+    }
   });
 }
 

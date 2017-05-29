@@ -10,7 +10,6 @@ const data = {
     "faculity": "Computer Engineering",
     "home":"http://www.pamukkale.edu.tr",
     "url": "http://www.pamukkale.edu.tr/bilgisayar/tr/haberler",
-    "type": "scrape",
     "scrape": {
         "news": {
             "listItem": "tr",

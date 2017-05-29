@@ -40,7 +40,6 @@ Example parser json file,
     "faculity": "Computer Engineering",
     "home":"http://www.pamukkale.edu.tr",
     "url": "http://www.pamukkale.edu.tr/bilgisayar/tr/haberler",
-    "type": "scrape",
     "scrape": {
         "news": {
             "listItem": "tr",
@@ -55,6 +54,16 @@ Example parser json file,
             }
         }
     }
+}
+```
+
+Even you can add your rss listener,
+
+```json
+{
+    "university": "Yildiz Teknik Üniversitesi",
+    "faculity": "Computer Engineering",
+    "rss": "https://ytuce.maliayas.com/?type=rss"
 }
 ```
 

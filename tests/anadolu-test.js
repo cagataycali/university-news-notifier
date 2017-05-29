@@ -10,7 +10,6 @@ const data = {
     "faculity": "Açıköğretim Fakültesi",
     "home":"https://anadolu.edu.tr",
     "url": "https://anadolu.edu.tr/duyurular",
-    "type": "scrape",
     "scrape": {
         "news": {
             "listItem": "li",

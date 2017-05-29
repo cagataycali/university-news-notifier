@@ -5,6 +5,7 @@ const universities = new Datastore({filename: 'universities.db', autoload: true}
 const moment = require('moment');
 const exec = require('child_process').exec;
 const CronJob = require('cron').CronJob;
+const rssParser = require('rss-parser');
 
 // Make unique.
 news.ensureIndex({
@@ -99,37 +100,63 @@ function scrapeAndSave(file) {
   return new Promise((resolve, reject) => {
     let data = require(`${process.cwd()}/sites/${file}`);
     const baseURI = data.home;
-    const scrape = data.scrape;
 
-    // Scrape it.
-    scrapeIt(data.url, scrape).then(page => {
-        page = page.news.filter((piece) => {
-          if (piece.url && piece.title) {
-            if (!piece.url.includes(baseURI)) {
-              piece.url = `${baseURI}${piece.url}`;
-              return piece;
-            } else {
-              return piece;
-            }
-          }
-        });
-        page.forEach((item) => {
-          item.scrapedAt = moment().format()
-          news.insert(item, function (err, newDoc) {
+    if (data.rss) {
+      rssParser.parseURL(data.rss, function(err, parsed) {
+        console.log(parsed.feed.title);
+        parsed.feed.entries.forEach(function(entry) {
+          news.insert({
+            "title": entry.title,
+            "url": entry.link,
+            "publishedAt": entry.pubDate,
+            "scrapedAt": moment().format()
+          }, function (err, newDoc) {
             console.log('\n');
             getParticipants(data.university)
               .then((participants) => {
                 participants.forEach((participant) => {
-                  console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                  console.log(participant.useraname, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
                 })
               })
               .catch((err) => {
-                console.log('ERROR WHEN GET Participants');
+                console.log('ERROR WHEN GET Participants', err);
               })
-
            });
+        })
+      })
+    } else {
+        const scrape = data.scrape;
+
+        // Scrape it.
+        scrapeIt(data.url, scrape).then(page => {
+            page = page.news.filter((piece) => {
+              if (piece.url && piece.title) {
+                if (!piece.url.includes(baseURI)) {
+                  piece.url = `${baseURI}${piece.url}`;
+                  return piece;
+                } else {
+                  return piece;
+                }
+              }
+            });
+            page.forEach((item) => {
+              item.scrapedAt = moment().format()
+              news.insert(item, function (err, newDoc) {
+                console.log('\n');
+                getParticipants(data.university)
+                  .then((participants) => {
+                    participants.forEach((participant) => {
+                      console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                    })
+                  })
+                  .catch((err) => {
+                    console.log('ERROR WHEN GET Participants');
+                  })
+
+               });
+            });
         });
-    });
+    }
   });
 }
 

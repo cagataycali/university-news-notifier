@@ -17,6 +17,7 @@
     "moment": "^2.18.1",
     "nedb": "^1.8.0",
     "node-telegram-bot-api": "^0.27.1",
+    "rss-parser": "^2.9.0",
     "scrape-it": "^3.3.2",
     "slugify": "^1.1.0"
   }

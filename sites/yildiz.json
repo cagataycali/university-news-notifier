@@ -3,7 +3,6 @@
     "faculity": "Computer Engineering",
     "home":"https://www.ce.yildiz.edu.tr/",
     "url": "https://ytuce.maliayas.com/",
-    "type": "scrape",
     "scrape": {
         "news": {
             "listItem": "div.item",
