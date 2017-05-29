@@ -38,6 +38,7 @@ bot.onText(/(.+)$/, function (msg, match) {
           inline_keyboard: [
               [ { text: "Pamukkale Üniversitesi",  callback_data: "Pamukkale Üniversitesi",  } ],
               [ { text: "Anadolu Üniversitesi",  callback_data: "Anadolu Üniversitesi",  } ],
+              [ { text: "Dokuz Eylül Üniversitesi",  callback_data: "Dokuz Eylül Üniversitesi",  } ],
               [ { text: "Nope, none of them.",  callback_data: "nope",  } ]
           ],
       },
