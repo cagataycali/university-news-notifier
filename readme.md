@@ -109,4 +109,4 @@ npm run test
 * [Emre Güler](https://github.com/pleycpl)
 * [Murat Bastas](https://github.com/muratbsts)
 * [Barış Esen](https://github.com/barisesen)
-* [Mustafa Kaan Dermihan](https://github.com/mstfknn)
+* [Mustafa Kaan Demirhan](https://github.com/mstfknn)
