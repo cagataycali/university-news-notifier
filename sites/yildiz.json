@@ -1,0 +1,21 @@
+{
+    "university": "Yildiz Teknik Üniversitesi",
+    "faculity": "Computer Engineering",
+    "home":"https://www.ce.yildiz.edu.tr/",
+    "url": "https://ytuce.maliayas.com/",
+    "type": "scrape",
+    "scrape": {
+        "news": {
+            "listItem": "div.item",
+            "name": "announcement",
+            "data": {
+                "url": {
+                    "selector": "div.text_title a",
+                    "attr": "href"
+                },
+                "title": "span.title",
+                "publishedAt": "span.date"
+            }
+        }
+    }
+}
