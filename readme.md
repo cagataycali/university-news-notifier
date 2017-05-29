@@ -66,6 +66,12 @@ Check out [here](https://github.com/cagataycali/university-news-notifier/blob/ma
 
 Check out [here](https://github.com/cagataycali/university-news-notifier/blob/master/example-test.js)
 
+**Run end to end test for results**
+
+```bash
+npm run test
+```
+
 ## :cloud: Deploy on your own notifier
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/cagataycali/university-news-notifier)
@@ -91,3 +97,4 @@ Check out [here](https://github.com/cagataycali/university-news-notifier/blob/ma
 
 * [Çağatay Çalı](https://github.com/cagataycali)
 * [Emre Güler](https://github.com/pleycpl)
+* [Murat Bastas](https://github.com/muratbsts)

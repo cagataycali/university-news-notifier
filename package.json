@@ -4,7 +4,8 @@
   "description": "Have your own open-source university feed notifier..",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node e2e-test.js"
   },
   "engines": {
     "node": "7.x"
