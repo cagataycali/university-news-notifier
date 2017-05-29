@@ -6,7 +6,7 @@ const moment = require('moment');
 const exec = require('child_process').exec;
 const CronJob = require('cron').CronJob;
 const TelegramBot = require('node-telegram-bot-api');
-const parser = require('rss-parser');
+const rssParser = require('rss-parser');
 
 const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
 const options = {
