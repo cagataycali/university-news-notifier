@@ -8,20 +8,13 @@ const CronJob = require('cron').CronJob;
 const TelegramBot = require('node-telegram-bot-api');
 const rssParser = require('rss-parser');
 
-// const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
-// const options = {
-//   webHook: { port: process.env.PORT },
-// };
-// const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, options);
-//
-// bot.setWebHook(`${appUrl}/bot${process.env.TELEGRAM_TOKEN}`);
-// REMOVE
-// replace the value below with the Telegram token you receive from @BotFather
-const token = '373736186:AAHP0QRD8G3DAv7RI7J1KKYOf_cBnQygNlM';
+const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
+const options = {
+  webHook: { port: process.env.PORT },
+};
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, options);
 
-// Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(token, {polling: true});
-// REMOVE
+bot.setWebHook(`${appUrl}/bot${process.env.TELEGRAM_TOKEN}`);
 
 // Make unique.
 news.ensureIndex({
