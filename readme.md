@@ -66,6 +66,12 @@ Check out [here](https://github.com/cagataycali/university-news-notifier/blob/ma
 
 Check out [here](https://github.com/cagataycali/university-news-notifier/blob/master/example-test.js)
 
+**Run end to end test for results**
+
+```bash
+npm run test
+```
+
 ## :cloud: Deploy on your own notifier
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/cagataycali/university-news-notifier)
@@ -75,9 +81,10 @@ Check out [here](https://github.com/cagataycali/university-news-notifier/blob/ma
 
 |       University                                          |       Crawling Site                       |  Status  |
 | --------------------------------------------------------- |:-----------------------------------------:|:--------:|
-| [Yildiz Technical](https://www.ce.yildiz.edu.tr/)         |  https://ytuce.maliayas.com/              |   WIP     |
+| [Yildiz Technical](https://www.ce.yildiz.edu.tr/)         |  https://ytuce.maliayas.com/              |   WIP    |
 | [Istanbul](http://ce.istanbul.edu.tr/)                    |  http://ce.istanbul.edu.tr/               |   NOPE   |
-| [Pamukkale](http://www.pamukkale.edu.tr/bilgisayar)       |  http://www.pamukkale.edu.tr/bilgisayar   |   OK   |
+| [Pamukkale](http://www.pamukkale.edu.tr/bilgisayar)       |  http://www.pamukkale.edu.tr/bilgisayar   |   OK     |
+| [Anadolu Universitesi](https://www.anadolu.edu.tr)        |  https://www.anadolu.edu.tr/duyurular     |   OK     |
 | [Istanbul Technical](http://www.bb.itu.edu.tr/)           |  http://www.bb.itu.edu.tr/                |   NOPE   |
 
 **Lets parse your university feeds :smiling_imp:**
@@ -90,3 +97,4 @@ Check out [here](https://github.com/cagataycali/university-news-notifier/blob/ma
 
 * [Çağatay Çalı](https://github.com/cagataycali)
 * [Emre Güler](https://github.com/pleycpl)
+* [Murat Bastas](https://github.com/muratbsts)

@@ -5,15 +5,6 @@ const universities = new Datastore({filename: 'universities.db', autoload: true}
 const moment = require('moment');
 const exec = require('child_process').exec;
 const CronJob = require('cron').CronJob;
-const TelegramBot = require('node-telegram-bot-api');
-
-const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
-const options = {
-  webHook: { port: process.env.PORT },
-};
-const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, options);
-
-bot.setWebHook(`${appUrl}/bot${process.env.TELEGRAM_TOKEN}`);
 
 // Make unique.
 news.ensureIndex({
@@ -28,42 +19,9 @@ universities.ensureIndex({
 
 moment.locale("tr");
 
-
-// telegram section
-bot.onText(/(.+)$/, function (msg, match) {
-  const chatId = msg.chat.id;
-  let replyOptions = {
-      reply_markup: {
-          inline_keyboard: [
-              [ { text: "Pamukkale Üniversitesi",  callback_data: "Pamukkale Üniversitesi",  } ],
-              [ { text: "Yildiz Teknik Üniversitesi",  callback_data: "Yildiz Teknik Üniversitesi",  } ],
-              [ { text: "Anadolu Üniversitesi",  callback_data: "Anadolu Üniversitesi",  } ],
-              [ { text: "Nope, none of them.",  callback_data: "nope",  } ]
-          ],
-      },
-  };
-
-  bot.sendMessage(chatId, "Did you mean?", replyOptions)
-      .then(() => {
-          bot.once("callback_query", answer => {
-            console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
-                if (answer.data !== 'nope') {
-                  bot.sendMessage(chatId, `You choosed ${answer.data}`);
-                  addParticipant({
-                    useraname: answer.message.chat.username,
-                    telegramId: answer.message.chat.id,
-                    university: answer.data.trim()
-                  });
-                  bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
-                } else {
-                  bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
-                }
-              });
-          });
-});
-
-// telegram section
-
+exec('rm *.db', (error, stdout, stderr) => {
+  console.log('Removed universities data.');
+})
 
 // Extract sites from sites/*.json ..
 exec('cd sites && ls *.json', (error, stdout, stderr) => {
@@ -73,9 +31,8 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
   }
   // Data ..
   // const scrape = require(`${process.cwd()}/sites/${stdout.trim()}`);
-  stdout.split('\n').forEach((item) => {
+  stdout.split('\n').forEach(async(item) => {
     item = item.trim();
-    scrapeAndSave(item);
     if (item.split('.json')[0].trim().length > 0) {
       let content = require(`${process.cwd()}/sites/${item}`);
       let data = {
@@ -91,6 +48,12 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
           console.log(`Bu üniversite eklendi ${item.trim().split('.json')[0]}`);
         }
       });
+      await addParticipant({
+        useraname: 'cagataycali',
+        telegramId: 149632499,
+        university: content.university
+      })
+      scrapeAndSave(item);
     }
   })
 });
@@ -124,6 +87,7 @@ function getParticipants(university) {
   });
 }
 
+
 /*
   Scrape with directory's params.
   Save database.
@@ -152,22 +116,17 @@ function scrapeAndSave(file) {
         page.forEach((item) => {
           item.scrapedAt = moment().format()
           news.insert(item, function (err, newDoc) {
-            if (err) {
-              // console.log(err.errorType === 'uniqueViolated' ? 'Veritabanında mevcut..': 'Başka bir hata mevcut' + err);
-            } else {
-              console.log('inserted');
-              getParticipants(data.university)
-                .then((participants) => {
-                  participants.forEach((participant) => {
-                    // send telegram notification
-                    console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
-                    bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
-                  })
+            console.log('\n');
+            getParticipants(data.university)
+              .then((participants) => {
+                participants.forEach((participant) => {
+                  console.log(participant.useraname, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
                 })
-                .catch((err) => {
-                  console.log('ERROR WHEN GET Participants');
-                })
-            }
+              })
+              .catch((err) => {
+                console.log('ERROR WHEN GET Participants');
+              })
+
            });
         });
     });
