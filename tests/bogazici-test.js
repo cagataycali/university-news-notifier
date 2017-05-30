@@ -1,21 +1,21 @@
 const scrapeIt = require("scrape-it");
 
 const data = {
-    "university": "Anadolu Üniversitesi",
-    "faculity": "Açıköğretim Fakültesi",
-    "home":"https://anadolu.edu.tr",
-    "url": "https://anadolu.edu.tr/duyurular",
+    "university": "Boğaziçi Üniversitesi",
+    "faculity": "",
+    "home":"http://bogazici.edu.tr",
+    "url": "http://bogazici.edu.tr/tr-TR/Content/Duyurular/Duyurular",
     "scrape": {
         "news": {
-            "listItem": "li",
+            "listItem": "ul.newslist > li",
             "name": "announcement",
             "data": {
                 "url": {
-                    "selector": "a.headLine",
+                    "selector": "a.urltoGO",
                     "attr": "href"
                 },
                 "title": "a",
-                "publishedAt": "a.calendar"
+                "publishedAt": "span.date"
             }
         }
     }
