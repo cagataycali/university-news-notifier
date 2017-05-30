@@ -112,3 +112,4 @@ npm run test
 * [Murat Bastas](https://github.com/muratbsts)
 * [Barış Esen](https://github.com/barisesen)
 * [Mustafa Kaan Demirhan](https://github.com/mstfknn)
+* [Sinan Ülker](https://github.com/unicod3)
