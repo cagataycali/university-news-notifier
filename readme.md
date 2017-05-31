@@ -93,12 +93,12 @@ npm run test
 | [Anadolu Universitesi](https://www.anadolu.edu.tr)                     |  https://www.anadolu.edu.tr/duyurular                      |   OK     |
 | [Boğaziçi Universitesi](http://bogazici.edu.tr)                        |  http://bogazici.edu.tr/tr-TR/Content/Duyurular/Duyurular  |   OK     |
 | [Dokuz Eylül](http://www.deu.edu.tr)                                   |  http://www.eng.deu.edu.tr                                 |   OK     |
+| [Ege Üniversitesi](http://www.ege.edu.tr/)                            |  http://bilmuh.ege.edu.tr/                                |   OK     |
 | [Eskişehir Osmangazi Üniversitesi](https://www.ogu.edu.tr)             |  https://www.ogu.edu.tr                                    |   OK     |
 | [İstanbul Teknik Universitesi](http://www.itu.edu.tr/)                 |  http://www.itu.edu.tr/duyuru                              |   OK     |
 | [Ondokuz Mayıs Universitesi](http://www.omu.edu.tr/tr/tum-haberler)    |  http://www.omu.edu.tr/tr/tum-haberler                     |   OK     |
 | [Pamukkale](http://www.pamukkale.edu.tr/bilgisayar)                    |  http://www.pamukkale.edu.tr/bilgisayar                    |   OK     |
 | [Yildiz Technical](https://www.ce.yildiz.edu.tr/)                      |  https://ytuce.maliayas.com/                               |   OK     |
-| [Ege Üniversitesi](http://www.ege.edu.tr/)                            |  http://bilmuh.ege.edu.tr/                                |   OK     |
 
 
 **Lets parse your university feeds :smiling_imp:**
