@@ -36,6 +36,7 @@ bot.onText(/(.+)$/, function (msg, match) {
   let replyOptions = {
       reply_markup: {
           inline_keyboard: [
+              [ { text: "Ege Üniversitesi",  callback_data: "Ege Üniversitesi",  } ],            
               [ { text: "Eskişehir Osmangazi Üniversitesi",  callback_data: "Eskişehir Osmangazi Üniversitesi",  } ],
               [ { text: "Anadolu Üniversitesi",  callback_data: "Anadolu Üniversitesi",  }, { text: "Boğaziçi Üniversitesi",  callback_data: "Boğaziçi Üniversitesi",  } ],
               [ { text: "Dokuz Eylül Üniversitesi",  callback_data: "Dokuz Eylül Üniversitesi",  }, { text: "İstanbul Teknik Üniversitesi",  callback_data: "İstanbul Teknik Üniversitesi",  }  ],
