@@ -1,6 +1,7 @@
 # :books: University news notifier
 
 [![Bot API](http://img.shields.io/badge/Bot%20API-v3.0.0-00aced.svg)](https://core.telegram.org/bots/api)
+![https://t.me/UniversityNewsNotifierBot](https://img.shields.io/badge/%F0%9F%93%9A%20Telegram-UniversityNewsNotifierBot%20-blue.svg)
 ![https://t.me/cagataycali](https://img.shields.io/badge/%F0%9F%92%AC%20Telegram-cagataycali-brightgreen.svg)
 ![https://t.me/emrfs](https://img.shields.io/badge/%F0%9F%92%AC%20Telegram-emreguler-brightgreen.svg)
 
