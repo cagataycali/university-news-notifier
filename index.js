@@ -35,11 +35,12 @@ bot.onText(/(.+)$/, function (msg, match) {
   const chatId = msg.chat.id;
   let replyOptions = {
       reply_markup: {
-          inline_keyboard: inlineKeyboardItems()
-                            .then((entries) => {
-                                return entries.map((entry) => {
-                                  return [{ text: entry.university,  callback_data: entry.university,  }]
-                                })
+          inline_keyboard: inlineKeyboardItems().then((entries) => {
+                              return entries.map((entry) => {
+                                return [{ text: entry.university,  callback_data: entry.university,  }]
+                              })
+                            }).catch((err) => {
+                              console.log('ERROR WHEN GET InlineKeyboardItems', err);
                             })
       },
   };
