@@ -1,3 +1,4 @@
 node_modules
 *.db
 /npm-debug.log
+yarn.lock
