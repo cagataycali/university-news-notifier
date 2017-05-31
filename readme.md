@@ -98,7 +98,7 @@ npm run test
 | [Ondokuz Mayıs Universitesi](http://www.omu.edu.tr/tr/tum-haberler)    |  http://www.omu.edu.tr/tr/tum-haberler                     |   OK     |
 | [Pamukkale](http://www.pamukkale.edu.tr/bilgisayar)                    |  http://www.pamukkale.edu.tr/bilgisayar                    |   OK     |
 | [Yildiz Technical](https://www.ce.yildiz.edu.tr/)                      |  https://ytuce.maliayas.com/                               |   OK     |
-| [Ege Üniversitesi](https://www.ege.edu.tr/)                            |  http://bilmuh.ege.edu.tr/                                |   OK     |
+| [Ege Üniversitesi](http://www.ege.edu.tr/)                            |  http://bilmuh.ege.edu.tr/                                |   OK     |
 
 
 **Lets parse your university feeds :smiling_imp:**
