@@ -4,27 +4,7 @@
  node example.js
 */
 const scrapeIt = require("scrape-it");
-
-const data = {
-    "university": "İstanbul Teknik Üniversitesi",
-    "faculity": "",
-    "home":"http://www.itu.edu.tr/",
-    "url": "http://www.itu.edu.tr/duyuru",
-    "scrape": {
-        "news": {
-            "listItem": "tr",
-            "name": "announcement",
-            "data": {
-                "url": {
-                    "selector": "a.link",
-                    "attr": "href"
-                },
-                "title": "a",
-                "publishedAt": "span.sfkonularPublicationDate"
-            }
-        }
-    }
-}
+const data = require('../sites/itu.json')
 const baseURI = data.url;
 const scrape = data.scrape;
 

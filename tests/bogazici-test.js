@@ -1,25 +1,5 @@
 const scrapeIt = require("scrape-it");
-
-const data = {
-    "university": "Boğaziçi Üniversitesi",
-    "faculity": "",
-    "home":"http://bogazici.edu.tr",
-    "url": "http://bogazici.edu.tr/tr-TR/Content/Duyurular/Duyurular",
-    "scrape": {
-        "news": {
-            "listItem": "ul.newslist > li",
-            "name": "announcement",
-            "data": {
-                "url": {
-                    "selector": "a.urltoGO",
-                    "attr": "href"
-                },
-                "title": "a",
-                "publishedAt": "span.date"
-            }
-        }
-    }
-}
+const data = require('../sites/bogazici.json')
 const baseURI = data.url;
 const scrape = data.scrape;
 

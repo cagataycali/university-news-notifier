@@ -1,25 +1,5 @@
 const scrapeIt = require("scrape-it");
-
-const data = {
-    "university": "Ondokuz Mayıs Üniversitesi",
-    "faculity": "",
-    "home":"http://www.omu.edu.tr/",
-    "url": "http://www.omu.edu.tr/tr/tum-haberler",
-    "scrape": {
-        "news": {
-            "listItem": ".allnews > li",
-            "name": "announcement",
-            "data": {
-                "url": {
-                    "selector": "a",
-                    "attr": "href"
-                },
-                "title": "a",
-                "publishedAt": "i"
-            }
-        }
-    }
-}
+const data = require('../sites/ondokuz.json')
 const baseURI = data.url;
 const scrape = data.scrape;
 

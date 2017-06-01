@@ -1,25 +1,5 @@
 const scrapeIt = require("scrape-it");
-
-const data = {
-    "university": "Anadolu Üniversitesi",
-    "faculity": "Açıköğretim Fakültesi",
-    "home":"https://anadolu.edu.tr",
-    "url": "https://anadolu.edu.tr/duyurular",
-    "scrape": {
-        "news": {
-            "listItem": "li",
-            "name": "announcement",
-            "data": {
-                "url": {
-                    "selector": "a.headLine",
-                    "attr": "href"
-                },
-                "title": "a",
-                "publishedAt": "a.calendar"
-            }
-        }
-    }
-}
+const data = require('../sites/anadolu.json')
 const baseURI = data.url;
 const scrape = data.scrape;
 
