@@ -1,5 +1,10 @@
+/*
+ For test purposal,
+ yarn add scrape-it
+ node example.js
+*/
 const scrapeIt = require("scrape-it");
-const data = require('../sites/esogu.json')
+const data = require('../sites/kou.json')
 const baseURI = data.url;
 const scrape = data.scrape;
 
