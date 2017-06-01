@@ -33,33 +33,34 @@ moment.locale("tr");
 // telegram section
 bot.onText(/(.+)$/, function (msg, match) {
   const chatId = msg.chat.id;
-  let replyOptions = {
-      reply_markup: {
-          inline_keyboard: inlineKeyboardItems().then((entries) => {
-                              return entries.map((entry) => {
-                                return [{ text: entry.university,  callback_data: entry.university,  }]
-                              })
-                            })
-      },
-  };
+  inlineKeyboardItems().then((entries) => {
+    let inlineKeyboardItems = entries.map((entry) => {
+      return [{ text: entry.university,  callback_data: entry.university,  }]
+    })
+    let replyOptions = {
+        reply_markup: {
+            inline_keyboard: inlineKeyboardItems
+        },
+    };
 
-  bot.sendMessage(chatId, "Did you mean?", replyOptions)
-      .then(() => {
-          bot.once("callback_query", answer => {
-            console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
-                if (answer.data !== 'nope') {
-                  bot.sendMessage(chatId, `You choose ${answer.data}`);
-                  addParticipant({
-                    username: answer.message.chat.username,
-                    telegramId: answer.message.chat.id,
-                    university: answer.data.trim()
-                  });
-                  bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
-                } else {
-                  bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
-                }
-              });
-          });
+    bot.sendMessage(chatId, "Did you mean?", replyOptions)
+        .then(() => {
+            bot.once("callback_query", answer => {
+              console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
+                  if (answer.data !== 'nope') {
+                    bot.sendMessage(chatId, `You choose ${answer.data}`);
+                    addParticipant({
+                      username: answer.message.chat.username,
+                      telegramId: answer.message.chat.id,
+                      university: answer.data.trim()
+                    });
+                    bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
+                  } else {
+                    bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
+                  }
+                });
+            });
+  });
 });
 
 // telegram section
