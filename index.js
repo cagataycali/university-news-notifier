@@ -30,6 +30,18 @@ universities.ensureIndex({
 
 moment.locale("tr");
 
+// Clear db.
+bot.onText(/\/clear/, msg => {
+  const chatId = msg.chat.id;
+  if (chatId === 149632499) {
+    exec('rm *.db', err => err ? console.log('Error', err) : '');
+    bot.sendMessage(chatId, 'Cleared db.');
+
+  } else {
+    bot.sendMessage(chatId, `Please contact with admin, @cagataycali`);
+  }
+});
+
 bot.onText(/(.+)$/, async(msg, match) => {
     const chatId = msg.chat.id;
     let keyboardItems = await inlineKeyboardItems();
