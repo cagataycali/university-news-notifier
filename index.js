@@ -35,13 +35,13 @@ bot.onText(/(.+)$/, function (msg, match) {
   const chatId = msg.chat.id;
   let replyOptions = {
       reply_markup: {
-          inline_keyboard: inlineKeyboardItems().then((entries) => {
+          inline_keyboard: [inlineKeyboardItems().then((entries) => {
                               return entries.map((entry) => {
                                 return [{ text: entry.university,  callback_data: entry.university,  }]
                               })
                             }).catch((err) => {
                               console.log('ERROR WHEN GET InlineKeyboardItems', err);
-                            })
+                            })]
       },
   };
 
@@ -102,7 +102,7 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
   Example usage: let inlineKeyboardItems = inlineKeyboardItems();
 */
 function inlineKeyboardItems() {
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     universities.find({ university: { $gt: "" } }, (err, docs) => {
       err ? reject(err.errorType) : resolve(docs);
     })
