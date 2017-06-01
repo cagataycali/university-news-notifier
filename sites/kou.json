@@ -15,7 +15,7 @@
                 "title": "div.mainInfo > div.title > a",
                 "publishedAt": 
                 {
-                  "selector": "div.dateBox", convert: x => x.split(' ')[2]+" "+x.split(' ')[0]+" "+x.split(' ')[1].replace('\n\t\t\t\t\t\t\t', '')
+                  "selector": "div.dateBox", "convert": "x => x.split(' ')[2]+" "+x.split(' ')[0]+" "+x.split(' ')[1].replace('\n\t\t\t\t\t\t\t', '')"
                 }
             }
         }
