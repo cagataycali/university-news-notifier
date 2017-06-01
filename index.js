@@ -10,18 +10,19 @@ const rssParser = require('rss-parser');
 
 const appUrl = `https://${process.env.APP_NAME}.herokuapp.com:443`;
 const options = {
-  webHook: { port: process.env.PORT },
+    webHook: {
+        port: process.env.PORT
+    }
 };
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, options);
 
 bot.setWebHook(`${appUrl}/bot${process.env.TELEGRAM_TOKEN}`);
 
-// Make unique.
 news.ensureIndex({
     fieldName: 'url',
     unique: true
 }, function(err) {});
-// Make unique.
+
 universities.ensureIndex({
     fieldName: 'university',
     unique: true
@@ -29,83 +30,110 @@ universities.ensureIndex({
 
 moment.locale("tr");
 
+bot.onText(/(.+)$/, async(msg, match) => {
+    const chatId = msg.chat.id;
+    let keyboardItems = await inlineKeyboardItems();
 
-// telegram section
-bot.onText(/(.+)$/, function (msg, match) {
-  const chatId = msg.chat.id;
-  inlineKeyboardItems().then((entries) => {
-    let inlineKeyboardItems = entries.map((entry) => {
-      return [{ text: entry.university,  callback_data: entry.university,  }]
+    keyboardItems = keyboardItems.map((entry) => {
+        return [
+            {
+                text: entry.university,
+                callback_data: entry.university
+            }
+        ]
     })
+
     let replyOptions = {
         reply_markup: {
-            inline_keyboard: inlineKeyboardItems
-        },
+            inline_keyboard: keyboardItems
+        }
     };
 
-    bot.sendMessage(chatId, "Did you mean?", replyOptions)
-        .then(() => {
-            bot.once("callback_query", answer => {
-              console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
-                  if (answer.data !== 'nope') {
-                    bot.sendMessage(chatId, `You choose ${answer.data}`);
-                    addParticipant({
-                      username: answer.message.chat.username,
-                      telegramId: answer.message.chat.id,
-                      university: answer.data.trim()
-                    });
-                    bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
-                  } else {
-                    bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
-                  }
-                });
-            });
-  });
+    bot.sendMessage(chatId, "Did you mean?", replyOptions).then(() => {
+        bot.once("callback_query", answer => {
+            console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
+            if (answer.data !== 'nope') {
+                bot.sendMessage(chatId, `You choose ${answer.data}`);
+                addParticipant({username: answer.message.chat.username, telegramId: answer.message.chat.id, university: answer.data.trim()});
+                bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
+            } else {
+                bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
+            }
+        });
+    }).catch((err) => {
+        console.log(err);
+    })
+
 });
 
-// telegram section
-
-
-// Extract sites from sites/*.json ..
-exec('cd sites && ls *.json', (error, stdout, stderr) => {
-  if (error) {
-    console.error(`exec error: ${error}`);
-    return;
-  }
-  // Data ..
-  // const scrape = require(`${process.cwd()}/sites/${stdout.trim()}`);
-  stdout.split('\n').forEach((item) => {
-    item = item.trim();
-    scrapeAndSave(item);
-    if (item.split('.json')[0].trim().length > 0) {
-      let content = require(`${process.cwd()}/sites/${item}`);
-      let data = {
-        university: content.university,
-        faculity: content.faculity,
-        directory: item,
-        participants: []
-      }
-      universities.insert(data, function (err, newDoc) {
-        if (err) {
-          console.log(err.errorType === 'uniqueViolated' ? 'Bu üniversite mevcut..': 'Bir hata oluştu' + err);
-        } else {
-          console.log(`Bu üniversite eklendi ${item.trim().split('.json')[0]}`);
-        }
-      });
+exec('ls sites/*.json sites/*.js', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`exec error: ${error}`);
+        return;
     }
-  })
+
+    stdout.split('\n').forEach((item) => {
+        item = item.trim();
+        item = item.split('sites/').join('');
+        let extention = item.split('.').pop(-1);
+        if (extention === 'json') {
+            let content = require(`${process.cwd()}/sites/${item}`);
+            let data = {
+                university: content.university,
+                faculity: content.faculity,
+                directory: item,
+                participants: []
+            }
+            universities.insert(data, function(err, newDoc) {
+                if (err) {
+                    console.log(err.errorType === 'uniqueViolated'
+                        ? 'Bu üniversite mevcut..'
+                        : 'Bir hata oluştu' + err);
+                } else {
+                    console.log(`Bu üniversite eklendi ${item.trim().split('.json')[0]}`);
+                }
+            });
+            scrapeAndSave(item);
+        } else if (extention === 'js') {
+            let content = require(`${process.cwd()}/sites/${item}`);
+            let data = {
+                university: content.data.university,
+                faculity: content.data.faculity,
+                directory: item,
+                participants: []
+            }
+            universities.insert(data, function(err, newDoc) {
+                if (err) {
+                    console.log(err.errorType === 'uniqueViolated'
+                        ? 'Bu üniversite mevcut..'
+                        : 'Bir hata oluştu' + err);
+                } else {
+                    console.log(`Bu üniversite eklendi ${item.trim().split('.js')[0]}`);
+                }
+            });
+            scrapeAndSave(item);
+        } else {
+            console.log('nothing');
+        }
+    })
 });
 
 /*
   Get inline keyboard items(universities).
-  Example usage: let inlineKeyboardItems = inlineKeyboardItems();
+  Example usage: let inlineKeyboardItems = await inlineKeyboardItems();
 */
 function inlineKeyboardItems() {
-  return new Promise((resolve, reject) => {
-    universities.find({ university: { $gt: "" } }, (err, docs) => {
-      err ? reject(err.errorType) : resolve(docs);
-    })
-  });
+    return new Promise((resolve, reject) => {
+        universities.find({
+            university: {
+                $gt: ""
+            }
+        }, (err, docs) => {
+            err
+                ? reject(err.errorType)
+                : resolve(docs);
+        })
+    });
 }
 
 /*
@@ -117,11 +145,19 @@ function inlineKeyboardItems() {
   });
 */
 function addParticipant(obj) {
-  return new Promise((resolve, reject) => {
-    universities.update({ university: obj.university }, { $push: { participants: obj } }, {}, (err, numRowsUpdated) => {
-      err ? reject(err.errorType) : resolve(numRowsUpdated);
+    return new Promise((resolve, reject) => {
+        universities.update({
+            university: obj.university
+        }, {
+            $push: {
+                participants: obj
+            }
+        }, {}, (err, numRowsUpdated) => {
+            err
+                ? reject(err.errorType)
+                : resolve(numRowsUpdated);
+        });
     });
-  });
 }
 
 /*
@@ -130,11 +166,15 @@ function addParticipant(obj) {
   Usage : let participants = await getParticipants('Pamukkale Üniversitesi');
 */
 function getParticipants(university) {
-  return new Promise((resolve, reject) => {
-    universities.findOne({ university },  (err, docs) => {
-      err ? reject(err.errorType) : resolve(docs.participants);
-    })
-  });
+    return new Promise((resolve, reject) => {
+        universities.findOne({
+            university
+        }, (err, docs) => {
+            err
+                ? reject(err.errorType)
+                : resolve(docs.participants);
+        })
+    });
 }
 
 /*
@@ -145,87 +185,95 @@ function getParticipants(university) {
   file: pamukkale.json
 */
 function scrapeAndSave(file) {
-  return new Promise((resolve, reject) => {
-    let data = require(`${process.cwd()}/sites/${file}`);
-    const baseURI = data.home;
-
-    if (data.rss) {
-      rssParser.parseURL(data.rss, function(err, parsed) {
-        console.log(parsed.feed.title);
-        parsed.feed.entries.forEach(function(entry) {
-          news.insert({
-            "title": entry.title,
-            "url": entry.link,
-            "publishedAt": entry.pubDate,
-            "scrapedAt": moment().format()
-          }, function (err, newDoc) {
-            if (!err) {
-              console.log('New entry!');
-              getParticipants(data.university)
-                .then((participants) => {
-                  participants.forEach((participant) => {
-                    console.log(participant.username, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
-                    bot.sendMessage(participant.telegramId, `${entry.title} ${entry.pubDate} \n ${entry.link}`);
-                  })
+    return new Promise(async(resolve, reject) => {
+        let data = require(`${process.cwd()}/sites/${file}`);
+        const baseURI = data.home;
+        let extention = file.split('.').pop(-1);
+        if (extention === 'js') {
+            var page = await data.page();
+            data = data.data; // Bind data object ..
+            page.forEach((item) => {
+                item.scrapedAt = moment().format();
+                news.insert(item, function(err, newDoc) {
+                    if (!err) {
+                        getParticipants(data.university).then((participants) => {
+                            participants.forEach((participant) => {
+                                // send telegram notification
+                                console.log(participant.username, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                                bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
+                            })
+                        }).catch((err) => {
+                            console.log('ERROR WHEN GET Participants');
+                        });
+                    }
+                });
+            });
+        } else if (extention === 'json' && data.rss) {
+            rssParser.parseURL(data.rss, function(err, parsed) {
+                parsed.feed.entries.forEach(function(entry) {
+                    news.insert({
+                        "title": entry.title,
+                        "url": entry.link,
+                        "publishedAt": entry.pubDate,
+                        "scrapedAt": moment().format()
+                    }, function(err, newDoc) {
+                        if (!err) {
+                            getParticipants(data.university).then((participants) => {
+                                participants.forEach((participant) => {
+                                    console.log(participant.username, participant.telegramId, 'need notify.', entry.title, entry.link, entry.pubDate);
+                                    bot.sendMessage(participant.telegramId, `${entry.title} ${entry.pubDate} \n ${entry.link}`);
+                                })
+                            }).catch((err) => {
+                                console.log('ERROR WHEN GET Participants', err);
+                            })
+                        }
+                    });
                 })
-                .catch((err) => {
-                  console.log('ERROR WHEN GET Participants', err);
-                })
-            }
-           });
-        })
-      })
-    } else {
-      const scrape = data.scrape;
-      // Scrape it.
-      scrapeIt(data.url, scrape).then(page => {
-          page = page.news.filter((piece) => {
-            if (piece.url && piece.title) {
-              if (!piece.url.includes(baseURI)) {
-                piece.url = `${baseURI}${piece.url}`;
-                return piece;
-              } else {
-                return piece;
-              }
-            }
-          });
-          page.forEach((item) => {
-            item.scrapedAt = moment().format()
-            news.insert(item, function (err, newDoc) {
-              if (err) {
-                // console.log(err.errorType === 'uniqueViolated' ? 'Veritabanında mevcut..': 'Başka bir hata mevcut' + err);
-              } else {
-                console.log('New entry!');
-                getParticipants(data.university)
-                  .then((participants) => {
-                    participants.forEach((participant) => {
-                      // send telegram notification
-                      console.log(participant.username, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
-                      bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
-                    })
-                  })
-                  .catch((err) => {
-                    console.log('ERROR WHEN GET Participants');
-                  })
-              }
-             });
-          });
-      });
-    }
-  });
+            })
+        } else {
+            const scrape = data.scrape;
+            scrapeIt(data.url, scrape).then(page => {
+                page = page.news.filter((piece) => {
+                    if (piece.url && piece.title) {
+                        if (!piece.url.includes(baseURI)) {
+                            piece.url = `${baseURI}${piece.url}`;
+                            return piece;
+                        } else {
+                            return piece;
+                        }
+                    }
+                });
+                page.forEach((item) => {
+                    item.scrapedAt = moment().format()
+                    news.insert(item, function(err, newDoc) {
+                        if (!err) {
+                            getParticipants(data.university).then((participants) => {
+                                participants.forEach((participant) => {
+                                    // send telegram notification
+                                    console.log(participant.username, participant.telegramId, 'need notify.', item.title, item.url, item.publishedAt);
+                                    bot.sendMessage(participant.telegramId, `${item.title} ${item.publishedAt} \n ${item.url}`);
+                                })
+                            }).catch((err) => {
+                                console.log('ERROR WHEN GET Participants');
+                            });
+                        }
+                    });
+                });
+            });
+        }
+    });
 }
 
-new CronJob('00 * * * * *', function() {
-  console.log('Cron..');
-  exec('cd sites && ls *.json', (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    // Data ..
-    stdout.split('\n').forEach((item) => {
-      item = item.trim();
-      scrapeAndSave(item)
-    })
-  });
+new CronJob('00 * * * * *', () => {
+    exec('ls sites/*.json sites/*.js', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            return;
+        }
+        stdout = stdout.split('sites/').join('');
+        stdout.split('\n').forEach((item) => {
+            item = item.trim();
+            scrapeAndSave(item);
+        });
+    });
 }, null, true, 'America/Los_Angeles');

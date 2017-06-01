@@ -33,17 +33,24 @@ const data = {
 const baseURI = data.url;
 const scrape = data.scrape;
 
-scrapeIt(baseURI, scrape).then(page => {
-  page = page.news.filter((piece) => {
-    if (piece.url && piece.title) {
-      console.log(piece.url);
-      if (!piece.url.includes(baseURI)) {
-        piece.url = `${data.home}${piece.url}${slugify(piece.title)}`;
-        return piece;
-      } else {
-        return piece;
-      }
-    }
+// Don't forget export data
+module.exports.data = data;
+// Don't forget export page scrape result
+module.exports.page = () => {
+  return new Promise((resolve, reject) => {
+    scrapeIt(baseURI, scrape).then(page => {
+      page = page.news.filter((piece) => {
+        if (piece.url && piece.title) {
+          if (!piece.url.includes(baseURI)) {
+            // Slugify special solution for Kocaeli.
+            piece.url = `${data.home}${piece.url}${slugify(piece.title)}`;
+            return piece;
+          } else {
+            return piece;
+          }
+        }
+      });
+      resolve(page)
+    });
   });
-  console.log(page);
-});
+}

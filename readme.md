@@ -68,6 +68,13 @@ Even you can add your rss listener,
 }
 ```
 
+Also you can add your university parser with native javascript,
+
+Check out:
+```bash
+sites/kou.js
+```
+
 **Update university list**
 
 Check out [here](https://github.com/cagataycali/university-news-notifier/blob/master/index.js#L48)
