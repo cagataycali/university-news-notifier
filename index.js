@@ -33,37 +33,34 @@ moment.locale("tr");
 // telegram section
 bot.onText(/(.+)$/, function (msg, match) {
   const chatId = msg.chat.id;
-  let replyOptions = {
-      reply_markup: {
-          inline_keyboard: [
-              [ { text: "Anadolu Üniversitesi",  callback_data: "Anadolu Üniversitesi",  }, { text: "Boğaziçi Üniversitesi",  callback_data: "Boğaziçi Üniversitesi",  } ],
-              [ { text: "Dokuz Eylül Üniversitesi",  callback_data: "Dokuz Eylül Üniversitesi",  }, { text: "Ege Üniversitesi",  callback_data: "Ege Üniversitesi",  } ],
-              [ { text: "Eskişehir Osmangazi Üniversitesi",  callback_data: "Eskişehir Osmangazi Üniversitesi",  }, { text: "İstanbul Teknik Üniversitesi",  callback_data: "İstanbul Teknik Üniversitesi", } ],
-              [ { text: "Ondokuz Mayıs Üniversitesi",  callback_data: "Ondokuz Mayıs Üniversitesi",  }, { text: "Pamukkale Üniversitesi",  callback_data: "Pamukkale Üniversitesi",  } ],
-              [ { text: "Yıldız Teknik Üniversitesi",  callback_data: "Yıldız Teknik Üniversitesi",  }, { text: "Kocaeli Üniversitesi",  callback_data: "Kocaeli Üniversitesi",  } ],
-              [ { text: "Reddit - Computer Science",  callback_data: "Reddit Computer Science",  }, { text: "Reddit - News",  callback_data: "Reddit News",   }, { text: "Hacker News",  callback_data: "Hacker News",   }  ],
-              [ { text: "Nope, none of them.",  callback_data: "nope",  } ]
-          ],
-      },
-  };
+  inlineKeyboardItems().then((entries) => {
+    let inlineKeyboardItems = entries.map((entry) => {
+      return [{ text: entry.university,  callback_data: entry.university,  }]
+    })
+    let replyOptions = {
+        reply_markup: {
+            inline_keyboard: inlineKeyboardItems
+        },
+    };
 
-  bot.sendMessage(chatId, "Did you mean?", replyOptions)
-      .then(() => {
-          bot.once("callback_query", answer => {
-            console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
-                if (answer.data !== 'nope') {
-                  bot.sendMessage(chatId, `You choose ${answer.data}`);
-                  addParticipant({
-                    username: answer.message.chat.username,
-                    telegramId: answer.message.chat.id,
-                    university: answer.data.trim()
-                  });
-                  bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
-                } else {
-                  bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
-                }
-              });
-          });
+    bot.sendMessage(chatId, "Did you mean?", replyOptions)
+        .then(() => {
+            bot.once("callback_query", answer => {
+              console.log(answer.message.chat.username, answer.data, answer.message.chat.id);
+                  if (answer.data !== 'nope') {
+                    bot.sendMessage(chatId, `You choose ${answer.data}`);
+                    addParticipant({
+                      username: answer.message.chat.username,
+                      telegramId: answer.message.chat.id,
+                      university: answer.data.trim()
+                    });
+                    bot.sendMessage(chatId, `You are participant ${answer.data} now.`);
+                  } else {
+                    bot.sendMessage(chatId, "Maybe you can add your university : https://github.com/cagataycali/university-news-notifier")
+                  }
+                });
+            });
+  });
 });
 
 // telegram section
@@ -98,6 +95,18 @@ exec('cd sites && ls *.json', (error, stdout, stderr) => {
     }
   })
 });
+
+/*
+  Get inline keyboard items(universities).
+  Example usage: let inlineKeyboardItems = inlineKeyboardItems();
+*/
+function inlineKeyboardItems() {
+  return new Promise((resolve, reject) => {
+    universities.find({ university: { $gt: "" } }, (err, docs) => {
+      err ? reject(err.errorType) : resolve(docs);
+    })
+  });
+}
 
 /*
   Add participants in university feeds.
