@@ -1,0 +1,20 @@
+{
+    "university": "İnönü Üniversitesi",
+    "faculity": "Bilgisayar Mühendisliği",
+    "home":"http://inonu.edu.tr",
+    "url": "http://inonu.edu.tr/tr/",
+    "scrape": {
+        "news": {
+            "listItem": "div.nicdark_archive1",
+            "name": "announcement",
+            "data": {
+                "url": {
+                    "selector": "a",
+                    "attr": "href"
+                },
+                "title": "h4",
+                "publishedAt": "h5"
+            }
+        }
+    }
+}
