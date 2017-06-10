@@ -1,4 +1,4 @@
-# :books: University news notifier
+# :books: University News Notifier
 
 [![Bot API](http://img.shields.io/badge/Bot%20API-v3.0.0-00aced.svg)](https://core.telegram.org/bots/api)
 [![@UniversityNewsNotifierBot](https://img.shields.io/badge/%F0%9F%93%9A%20Telegram-UniversityNewsNotifierBot%20-blue.svg)](https://t.me/UniversityNewsNotifierBot)
@@ -123,3 +123,10 @@ npm run test
 * [Mustafa Kaan Demirhan](https://github.com/mstfknn)
 * [Sinan Ülker](https://github.com/unicod3)
 * [Burak Özkırdeniz](https://github.com/burakozkirdeniz)
+
+
+## Hosting backed by [PlusClouds](https://plusclouds.com)
+
+*Thanks for sponsorships* :+1:
+
+![Backed by PlusClouds](https://plusclouds.com/assets/frontend/images/logos/svg/plusclouds-logo-blue-white.svg)
