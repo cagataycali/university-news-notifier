@@ -161,7 +161,7 @@ function addParticipant(obj) {
         universities.update({
             university: obj.university
         }, {
-            $push: {
+            $addToSet: {
                 participants: obj
             }
         }, {}, (err, numRowsUpdated) => {
