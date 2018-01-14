@@ -1,0 +1,20 @@
+{
+    "university": "Karadeniz Teknik Üniversitesi",
+    "faculity": "Mühendislik Fakültesi",
+    "home":"https://ktu.edu.tr",
+    "url": "http://www.ktu.edu.tr/bilgisayar-tumduyuru",
+    "scrape": {
+        "news": {
+            "listItem": "li",
+            "name": "announcement",
+            "data": {
+                "url": {
+                    "selector": "a.headLine",
+                    "attr": "href"
+                },
+                "title": "a",
+                "publishedAt": "a.calendar"
+            }
+        }
+    }
+}
