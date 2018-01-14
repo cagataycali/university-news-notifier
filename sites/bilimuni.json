@@ -1,0 +1,21 @@
+
+{
+    "university": "Antalya Bilim Üniversitesi",
+    "faculity": "",
+    "home":"https://antalya.edu.tr/tr",
+    "url": "https://antalya.edu.tr/tr/duyurular",
+    "scrape": {
+        "news": {
+            "listItem": ".allnews > li",
+            "name": "announcement",
+            "data": {
+                "url": {
+                    "selector": "a",
+                    "attr": "href"
+                },
+                "title": "a",
+                "publishedAt": "i"
+            }
+        }
+    }
+}
