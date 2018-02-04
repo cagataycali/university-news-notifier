@@ -1,0 +1,20 @@
+{
+    "university": "Firat Universitesi",
+    "faculity": "",
+    "home":"http://yaz.tek.firat.edu.tr",
+    "url": "http://yaz.tek.firat.edu.tr/tr/duyurular",
+    "scrape": {
+        "news": {
+            "listItem": "div.view-content > div.views-row",
+            "name": "announcement",
+            "data": {
+                "url": {
+                    "selector": "span.field-content > a",
+                    "attr": "href"
+                },
+                "title": "span.views-field-title",
+                "publishedAt": "span.views-field-created"
+            }
+        }
+    }
+}
