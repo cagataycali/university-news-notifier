@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node e2e-test.js"
+    "test": "node e2e-test.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "engines": {
     "node": "7.x"
@@ -19,6 +21,8 @@
     "node-telegram-bot-api": "^0.27.1",
     "rss-parser": "^2.9.0",
     "scrape-it": "^3.3.2",
-    "slugify": "^1.1.0"
-  }
+    "slugify": "^1.1.0",
+    "snyk": "^1.192.3"
+  },
+  "snyk": true
 }
